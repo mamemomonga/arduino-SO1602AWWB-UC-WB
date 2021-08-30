@@ -8,8 +8,12 @@ uint16_t uptime;
 void setup() {
 	pinMode(LED_BUILTIN, OUTPUT);
 
-	Wire.begin(); // i2c初期化
-	oled.begin(); // OLED初期化
+	// i2c初期化
+	Wire.begin();
+
+	// OLED初期化 SA0=LOW
+	oled.begin(false);
+
 	// ディスプレイ: ON カーソル: ON 点滅: ON
 	oled.display(true,true,true);
 

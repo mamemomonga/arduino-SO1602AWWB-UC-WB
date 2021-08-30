@@ -2,12 +2,26 @@
 #include <Wire.h>
 
 // アドレス設定: SA0=LOW
-#define SO_ADDR  0x3C
+#define SO_ADDR_SA0L  0x3C
 // アドレス設定: SA0=HIGH
-// #define SO_ADDR  0x3D
+#define SO_ADDR_SA0H  0x3D
+
+SO1602AWWB::SO1602AWWB() {
+	sa0=0;
+}
+
+void SO1602AWWB::begin(bool _sa0) {
+	sa0 = _sa0;
+	delay(100);
+	clear();
+	home();
+	display(true,false,false);
+	clear();
+	contrast(0xFF);
+}
 
 void SO1602AWWB::send_cmd(uint8_t cmd) {
-	Wire.beginTransmission(SO_ADDR);
+	Wire.beginTransmission(sa0 ? SO_ADDR_SA0H : SO_ADDR_SA0L);
 	Wire.write(0x00);
 	Wire.write(cmd);
 	Wire.endTransmission();	
@@ -15,20 +29,11 @@ void SO1602AWWB::send_cmd(uint8_t cmd) {
 }
 
 void SO1602AWWB::send_data(uint8_t data) {
-	Wire.beginTransmission(SO_ADDR);
+	Wire.beginTransmission(sa0 ? SO_ADDR_SA0H : SO_ADDR_SA0L);
 	Wire.write(0x40);
 	Wire.write(data);
 	Wire.endTransmission();	
 	delay(1);
-}
-
-void SO1602AWWB::begin() {
-	delay(100);
-	clear();
-	home();
-	display(true,false,false);
-	clear();
-	contrast(0xFF);
 }
 
 void SO1602AWWB::contrast(uint8_t cont) {

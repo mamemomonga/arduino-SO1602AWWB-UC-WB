@@ -1,4 +1,4 @@
-# SO1602A Arduinoサンプルと簡易ライブラリ
+# SO1602AWWB-UC-WB Arduinoサンプルと簡易ライブラリ
 
 秋月電子で販売している [OLED 16x2 キャラクタ表示器 SO1602AWWB-UC-WB](https://akizukidenshi.com/catalog/g/gP-08277/) の利用方法と簡易ライブラリです。起動からの秒数を表示します。
 

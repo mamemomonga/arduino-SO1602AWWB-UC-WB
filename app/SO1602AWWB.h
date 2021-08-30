@@ -5,7 +5,8 @@
 
 class SO1602AWWB {
 	public:
-		void begin();
+		SO1602AWWB();
+		void begin(bool);
 		void contrast(uint8_t);
 		void write(char);
 		void print(String);
@@ -14,6 +15,7 @@ class SO1602AWWB {
 		void setCursor(uint8_t col, uint8_t row);
 		void display(bool display, bool cursor, bool blink);
 	private:
+		bool sa0;
 		void send_cmd(uint8_t);
 		void send_data(uint8_t);
 ;
