@@ -8,7 +8,7 @@
 
 # 回路図
 
-![image](./resources/images.png)
+![schematics](./schematics/schematics.png)
 
 # Licence
 
