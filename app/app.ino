@@ -1,9 +1,11 @@
-#include "SO1602AWWB.h"
 #include <Wire.h>
 
-SO1602AWWB oled;
+#include "SO1602AWWB.h"
+#include "MessageUtil.h"
+#include "Serifu.h"
 
-uint16_t uptime;
+SO1602AWWB oled;
+MessageUtil message_util(&oled);
 
 void setup() {
 	pinMode(LED_BUILTIN, OUTPUT);
@@ -16,6 +18,7 @@ void setup() {
 
 	// ディスプレイ: ON カーソル: ON 点滅: ON
 	oled.display(true,true,true);
+	oled.contrast(0xFF); // 明るさは最大
 
 	digitalWrite(LED_BUILTIN, HIGH);
 	oled.print("HELLO WORLD!"); // 文字を表示
@@ -29,21 +32,22 @@ void setup() {
 	oled.display(true,false,false);
 	oled.clear(); // 画面削除
 	oled.home(); // ホームに移動
-	oled.contrast(128); // 明るさは半分
 
-	oled.print("Uptime:"); // 文字を表示
-
-	uptime=0;
 }
 
 void loop() {
 
-	uint32_t sec = (millis()/1000);
-	if(sec > uptime) {
-		digitalWrite(LED_BUILTIN, HIGH);
-		oled.setCursor(8,1); // カーソルを2行目8桁目に移動
-		oled.print(String(sec)); // 数字を表示
-		digitalWrite(LED_BUILTIN, LOW);
-		uptime = sec;
-	}
+	digitalWrite(LED_BUILTIN, HIGH);
+	// カタカナのメッセージを表示
+	Serifu::greeting(&message_util);
+	digitalWrite(LED_BUILTIN, LOW);
+
+	oled.clear();
+	oled.home();
+	oled.print("Uptime:");
+
+	oled.setCursor(8,1); // カーソルを2行目8桁目に移動
+	uint16_t sec=millis()/1000;
+	oled.print(String(sec)); // 数字を表示
+	delay(3000);
 }
